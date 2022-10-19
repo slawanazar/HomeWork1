@@ -1,4 +1,6 @@
-    public class Point {
+package ru.stqa.pft.sandbox;
+
+public class Point {
 
         public static void main(String[] agrs) {
             Point p1 = new Point(6, 5);
@@ -12,7 +14,6 @@
             this.x = x;
             this.y = y;
         }
-
         public double distance(Point p1) {
             return Math.sqrt((this.x - p1.x) * (this.x - p1.x) + (this.y - p1.y) * (this.y - p1.y));
         }

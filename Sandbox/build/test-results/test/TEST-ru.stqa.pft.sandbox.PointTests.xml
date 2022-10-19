@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.pft.sandbox.PointTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-10-19T11:07:42" hostname="MSK-NAZAR-PC" time="0.017">
+  <properties/>
+  <testcase name="first" classname="ru.stqa.pft.sandbox.PointTests" time="0.011"/>
+  <testcase name="second" classname="ru.stqa.pft.sandbox.PointTests" time="0.001"/>
+  <testcase name="third" classname="ru.stqa.pft.sandbox.PointTests" time="0.0"/>
+  <system-out><![CDATA[Расстояние между точкой p1 и точкой p2 найдено верно: 6.4031242374328485 = 6.4031242374328485
+Расстояние между точкой p1 и точкой p2 найдено верно: 11 = 11
+Расстояние между точкой p1 и точкой p2 найдено верно: 5 = 5
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
