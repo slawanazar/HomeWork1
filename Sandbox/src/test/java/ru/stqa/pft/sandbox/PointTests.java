@@ -18,7 +18,7 @@ public class PointTests {
         assertEquals(p2.distance(p1), 11.0);
         System.out.println("Расстояние между точкой p1 и точкой p2 найдено верно: " + 11 + " = " + 11);
     }
-    
+
     @Test
     public void third() {
         Point p1 = new Point(8.0, 8.0 );
