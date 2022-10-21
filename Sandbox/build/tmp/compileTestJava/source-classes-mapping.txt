@@ -1,2 +1,0 @@
-ru/stqa/pft/sandbox/PointTests.java
- ru.stqa.pft.sandbox.PointTests
