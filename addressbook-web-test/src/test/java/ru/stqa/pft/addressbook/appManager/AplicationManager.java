@@ -2,19 +2,23 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import ru.stqa.pft.addressbook.model.ContactDate;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class AplicationManager {
     WebDriver driver;
     private SessionHelper sessionHelper;
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
+    private ContactHelper contactHelper;
 
     public void init() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.get("http://localhost/addressbook/");
+        contactHelper = new ContactHelper(driver);
         groupHelper = new GroupHelper(driver);
         navigationHelper = new NavigationHelper(driver);
         sessionHelper = new SessionHelper(driver);
@@ -31,5 +35,9 @@ public class AplicationManager {
 
     public NavigationHelper getNavigationHelper() {
         return navigationHelper;
+    }
+
+    public ContactHelper getContactHelper() {
+        return contactHelper;
     }
 }
