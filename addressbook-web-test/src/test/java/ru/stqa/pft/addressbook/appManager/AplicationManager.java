@@ -2,10 +2,8 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ru.stqa.pft.addressbook.model.ContactDate;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class AplicationManager {
     WebDriver driver;
