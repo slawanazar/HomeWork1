@@ -30,8 +30,6 @@ public class AplicationManager {
             driver = new InternetExplorerDriver();
         }
 
-
-        driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         driver.get("http://localhost/addressbook/group.php");
         groupHelper = new GroupHelper(driver);
