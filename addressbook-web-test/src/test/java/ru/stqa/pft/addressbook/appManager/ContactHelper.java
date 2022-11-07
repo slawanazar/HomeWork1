@@ -48,4 +48,15 @@ public class ContactHelper extends HelperBase {
     public void goToContactPage() {
         driver.findElement(By.linkText("add new")).click();
     }
+
+    public void createContact(ContactData contact) {
+        goToContactPage();
+        fillContactForm(contact, true);
+        submitContactCreation();
+        returnToContactPage();
+    }
+
+    public boolean isThereAContact() {
+        return isElementPresent(By.xpath("//img[@alt='Edit']"));
+    }
 }
