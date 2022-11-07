@@ -2,10 +2,11 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public class HelperBase {
-    protected WebDriver driver;
+    WebDriver driver;
 
     public HelperBase(WebDriver driver) {
         this.driver = driver;
@@ -31,6 +32,15 @@ public class HelperBase {
             driver.switchTo().alert();
             return true;
         } catch (NoAlertPresentException e) {
+            return false;
+        }
+    }
+
+    protected boolean isElementPresent(By locator) {
+        try {
+            driver.findElement(locator);
+            return true;
+        } catch (NoSuchElementException ex) {
             return false;
         }
     }
