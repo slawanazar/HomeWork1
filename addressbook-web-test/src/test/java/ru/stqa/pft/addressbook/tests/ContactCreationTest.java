@@ -9,10 +9,10 @@ public class ContactCreationTest extends TestBase {
     @Test
     public void testContactCreation() throws Exception {
         app.getNavigationHelper().goToGroupPage();
-        if (!app.getGroupHelper().isThereAGroup()) {
-            app.getGroupHelper().creteGroup(new GroupData("test1",null, null));
+        if (!app.getGroupHelper().isThereNameGroup("test300")) {
+            app.getGroupHelper().creteGroup(new GroupData("test300",null, null));
         }
-        app.getContactHelper().createContact(new ContactData("Pasha", "Piter", "+79161221397", "test@yandex.ru", "test1"));
+        app.getContactHelper().createContact(new ContactData("Pasha", "Piter", "+79161221397", "test@yandex.ru", "test300"));
     }
 
     @Test
