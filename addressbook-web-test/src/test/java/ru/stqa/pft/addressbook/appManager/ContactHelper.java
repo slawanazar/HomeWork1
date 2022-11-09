@@ -2,11 +2,14 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 public class ContactHelper extends HelperBase {
+    protected final AplicationManager app = new AplicationManager(Browser.CHROME);
 
     public ContactHelper(WebDriver driver) {
         super(driver);
@@ -28,10 +31,25 @@ public class ContactHelper extends HelperBase {
 
         if (creation) {
             new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
     }
+
+//    public void groupSearch(String nameGroup, String her, ContactData contactData) {
+////        goToContactPage();
+//        if (isElementPresent(By.name(contactData.getGroup()))) {
+//            new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+//        } else {
+//            app.getNavigationHelper().goToGroupPage();
+////            List<GroupData> before = app.getGroupHelper().getGroupList();
+//            app.getGroupHelper().creteGroup(new GroupData(contactData.getGroup(), null, null));
+//            List<GroupData> after = app.getGroupHelper().getGroupList();
+//            Assert.assertEquals(after.size(), before.size() +1);
+
+//        }
+//    }
 
     public void submitContactModification() {
         driver.findElement(By.name("update")).click();
