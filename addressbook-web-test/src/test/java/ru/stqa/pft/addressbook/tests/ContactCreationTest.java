@@ -16,9 +16,4 @@ public class ContactCreationTest extends TestBase {
             app.getContactHelper().createContact(new ContactData("Pasha", "Piter", "+79161221397", "test@yandex.ru", "test2"));
         }
     }
-
-    @Test
-    public void testContactCreationSecond() throws Exception {
-        app.getContactHelper().createContact(new ContactData("Fedya", "Tula", "+79161221397", "test@yandex.ru", "test5"));
-    }
 }

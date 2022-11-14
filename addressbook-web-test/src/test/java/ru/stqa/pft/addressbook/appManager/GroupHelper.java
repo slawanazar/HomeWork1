@@ -60,7 +60,7 @@ public class GroupHelper extends HelperBase{
     }
 
     public boolean isThereNameGroup(String test) {
-        return isElementPresent(By.linkText(test));
+        return isElementPresent(By.xpath("//*[.='" + test + "']"));
     }
 
 
