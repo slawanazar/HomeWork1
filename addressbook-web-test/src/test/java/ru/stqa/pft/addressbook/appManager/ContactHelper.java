@@ -2,11 +2,14 @@ package ru.stqa.pft.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
     protected final AplicationManager app = new AplicationManager(Browser.CHROME);
@@ -15,7 +18,7 @@ public class ContactHelper extends HelperBase {
         super(driver);
     }
 
-    public void goToEditContact() {
+    public void goToEditContact(int i) {
         driver.findElement(By.xpath("//img[@alt='Edit']")).click();
     }
 
@@ -40,19 +43,21 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-//    public void groupSearch(String nameGroup, String her, ContactData contactData) {
-////        goToContactPage();
-//        if (isElementPresent(By.name(contactData.getGroup()))) {
-//            new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-//        } else {
-//            app.getNavigationHelper().goToGroupPage();
-////            List<GroupData> before = app.getGroupHelper().getGroupList();
-//            app.getGroupHelper().creteGroup(new GroupData(contactData.getGroup(), null, null));
-//            List<GroupData> after = app.getGroupHelper().getGroupList();
-//            Assert.assertEquals(after.size(), before.size() +1);
+    public void selectContact(int index) {
+        driver.findElements(By.name("selected[]")).get(index).click();
+    }
 
-//        }
-//    }
+    public void deleteContact() {
+        click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+    }
+
+    public void closeAllert() {
+        driver.switchTo().alert().accept();
+    }
+
+    public void initContactModification(int index) {
+        driver.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    }
 
     public void submitContactModification() {
         driver.findElement(By.name("update")).click();
@@ -79,5 +84,19 @@ public class ContactHelper extends HelperBase {
 
     public boolean isThereAContact() {
         return isElementPresent(By.xpath("//img[@alt='Edit']"));
+    }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = driver.findElements(By.name("entry"));
+        for (WebElement element : elements){
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            List<WebElement> cells = element.findElements(By.tagName("td"));
+            String firstname = cells.get(2).getText();
+            String lastname = cells.get(1).getText();
+            ContactData contact = new ContactData(id, firstname, lastname, null, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }
