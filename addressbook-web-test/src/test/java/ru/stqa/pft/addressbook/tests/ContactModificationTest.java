@@ -13,10 +13,10 @@ public class ContactModificationTest extends TestBase {
     public void testContactModification() {
         app.getNavigationHelper().goToGroupPage();
         if (app.getGroupHelper().isThereNameGroup("test2")) {
-            app.getContactHelper().createContact(new ContactData("Pasha", "Moskow", "+79161221397", "test@yandex.ru", "test2"));
+            app.getContactHelper().createContact(new ContactData("Pasha", "Ivanov","Moskow", "+79161221397", "test@yandex.ru", "test2"));
         } else {
             app.getGroupHelper().creteGroup(new GroupData("test2", null, null));
-            app.getContactHelper().createContact(new ContactData("Pasha", "Moskow", "+79161221397", "test@yandex.ru", "test2"));
+            app.getContactHelper().createContact(new ContactData("Pasha", "Ivanov","Moskow", "+79161221397", "test@yandex.ru", "test2"));
         }
 //        app.getNavigationHelper().goToHomePage();
 //        app.getContactHelper().goToEditContact(before.size() - 1);
@@ -26,7 +26,7 @@ public class ContactModificationTest extends TestBase {
         List<ContactData> before = app.getContactHelper().getContactList();
         app.getContactHelper().selectContact(before.size() - 1);
         app.getContactHelper().initContactModification(before.size() - 1);
-        ContactData contact = new ContactData(before.get(before.size() - 1).getId(),"Pasha", "Moskow", "+79161221397", "test@yandex.ru", "test2");
+        ContactData contact = new ContactData(before.get(before.size() - 1).getId(),"Pasha", "Ivanov","Moskow", "+79161221397", "test@yandex.ru");
         app.getContactHelper().fillContactForm(contact, false);
         app.getContactHelper().submitContactModification();
         app.getNavigationHelper().goToHomePage();
