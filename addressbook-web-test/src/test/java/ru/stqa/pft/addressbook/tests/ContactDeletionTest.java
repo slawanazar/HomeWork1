@@ -10,23 +10,20 @@ import java.util.List;
 public class ContactDeletionTest extends TestBase {
     @Test
     public void testContactDeletion() throws Exception {
-        app.getNavigationHelper().goToGroupPage();
-        if (app.getGroupHelper().isThereNameGroup("test2")) {
+        if(! app.getContactHelper().isThereAContact()){
+            app.getNavigationHelper().goToGroupPage();
+            if(! app.getGroupHelper().isThereNameGroup("test2")){
+                app.getGroupHelper().creteGroup(new GroupData("test2", null, null));
+            }
             app.getNavigationHelper().goToHomePage();
-        } else {
-            app.getGroupHelper().creteGroup(new GroupData("test2", null, null));
-            app.getNavigationHelper().goToHomePage();
-        }
-        if (!app.getContactHelper().isThereAContact()) {
-            app.getContactHelper().createContact(new ContactData("Vyacheslav", "Ivanov","Moscow", "+79161221397", "test@yandex.ru", "test2"));
+            app.getContactHelper().createContact(new ContactData("Dima", "Ivanov","Moskow", "+79161221397", "test@yandex.ru", "test2"));
         }
         List<ContactData> before = app.getContactHelper().getContactList();
         app.getContactHelper().selectContact(before.size() - 1);
         app.getContactHelper().deleteContact();
         app.getContactHelper().closeAllert();
-
+        app.getNavigationHelper().goToHomePage();
         List<ContactData> after = app.getContactHelper().getContactList();
-
         before.remove(before.size() - 1);
         Assert.assertEquals(before, after);
     }
