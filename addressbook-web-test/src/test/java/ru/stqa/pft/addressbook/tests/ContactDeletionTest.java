@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -8,23 +9,25 @@ import java.util.List;
 
 
 public class ContactDeletionTest extends TestBase {
+    @BeforeMethod
+    public void ensurePrecondition() {
+        if(app.contact().list().size() == 0){
+            app.goTo().groupPage();
+            if(app.group().list().size() == 0){
+                app.group().create(new GroupData().withName("test2"));
+            }
+            app.goTo().homePage();
+            app.contact().create(new ContactData("Dima", "Ivanov","Moskow", "+79161221397", "test@yandex.ru", "test2"));
+        }
+    }
+
     @Test
     public void testContactDeletion() throws Exception {
-        if(! app.getContactHelper().isThereAContact()){
-            app.getNavigationHelper().goToGroupPage();
-            if(! app.getGroupHelper().isThereNameGroup("test2")){
-                app.getGroupHelper().creteGroup(new GroupData("test2", null, null));
-            }
-            app.getNavigationHelper().goToHomePage();
-            app.getContactHelper().createContact(new ContactData("Dima", "Ivanov","Moskow", "+79161221397", "test@yandex.ru", "test2"));
-        }
-        List<ContactData> before = app.getContactHelper().getContactList();
-        app.getContactHelper().selectContact(before.size() - 1);
-        app.getContactHelper().deleteContact();
-        app.getContactHelper().closeAllert();
-        app.getNavigationHelper().goToHomePage();
-        List<ContactData> after = app.getContactHelper().getContactList();
-        before.remove(before.size() - 1);
+        List<ContactData> before = app.contact().list();
+        int index = before.size() - 1;
+        app.contact().delete(index);
+        List<ContactData> after = app.contact().list();
+        before.remove(index);
         Assert.assertEquals(before, after);
     }
 }

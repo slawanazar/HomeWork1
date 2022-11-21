@@ -72,12 +72,12 @@ public class ContactHelper extends HelperBase {
         driver.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
     }
 
-    public void goToContactPage() {
+    public void contactPage() {
         driver.findElement(By.linkText("add new")).click();
     }
 
-    public void createContact(ContactData contact) {
-        goToContactPage();
+    public void create(ContactData contact) {
+        contactPage();
         fillContactForm(contact, true);
         submitContactCreation();
         returnToContactPage();
@@ -87,7 +87,7 @@ public class ContactHelper extends HelperBase {
         return isElementPresent(By.xpath("//img[@alt='Edit']"));
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         ArrayList<ContactData> contacts = new ArrayList<>();
         List<WebElement> elements = driver.findElements(By.name("entry"));
         for (WebElement element : elements) {
@@ -99,5 +99,20 @@ public class ContactHelper extends HelperBase {
             contacts.add(contact);
         }
         return contacts;
+    }
+
+    public void modify(ContactData contact, int index) {
+        selectContact(index);
+        initContactModification(index);
+        fillContactForm(contact, false);
+        submitContactModification();
+        app.goTo().homePage();
+    }
+
+    public void delete(int index) {
+        selectContact(index);
+        deleteContact();
+        closeAllert();
+        app.goTo().homePage();
     }
 }

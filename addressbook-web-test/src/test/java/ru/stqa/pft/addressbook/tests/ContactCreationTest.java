@@ -12,15 +12,15 @@ public class ContactCreationTest extends TestBase {
 
     @Test
     public void testContactCreation() throws Exception {
-        app.getNavigationHelper().goToGroupPage();
-        if (! app.getGroupHelper().isThereAGroup()){
-            app.getGroupHelper().creteGroup(new GroupData("test1", null, null));
+        app.goTo().groupPage();
+        if (! app.group().isThereAGroup()){
+            app.group().create(new GroupData().withName("test1"));
         }
-        app.getNavigationHelper().goToHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
+        app.goTo().homePage();
+        List<ContactData> before = app.contact().list();
         ContactData contact = new ContactData("Pasha", "Ivanov", "Moskow", "+79161221397", "test@yandex.ru", "test1");
-        app.getContactHelper().createContact(contact);
-        List<ContactData> after = app.getContactHelper().getContactList();
+        app.contact().create(contact);
+        List<ContactData> after = app.contact().list();
         before.add(contact);
         Comparator<? super ContactData> byId = (v1, v2) -> Integer.compare(v1.getId(), v2.getId());
         before.sort(byId);
