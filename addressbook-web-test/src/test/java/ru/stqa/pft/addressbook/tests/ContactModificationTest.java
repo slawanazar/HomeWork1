@@ -14,7 +14,7 @@ public class ContactModificationTest extends TestBase {
     public void ensurePrecondition() {
         if(app.contact().list().size() == 0){
             app.goTo().groupPage();
-            if(app.group().list().size() == 0){
+            if(app.group().all().size() == 0){
                 app.group().create(new GroupData().withName("test2"));
             }
             app.goTo().homePage();
