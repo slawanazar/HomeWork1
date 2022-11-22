@@ -7,7 +7,8 @@ import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
-import java.util.ArrayList;
+import ru.stqa.pft.addressbook.model.Contacts;
+
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -38,14 +39,14 @@ public class ContactHelper extends HelperBase {
         driver.findElement(By.name("email")).sendKeys(contactData.getEmail());
 
         if (creation) {
-            new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            new Select(driver.findElement(By.name("new_group"))).selectByIndex(1);
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
     }
 
-    public void selectContact(int index) {
-        driver.findElements(By.name("selected[]")).get(index).click();
+    public void selectContact(int id) {
+        driver.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void deleteContact() {
@@ -56,8 +57,9 @@ public class ContactHelper extends HelperBase {
         driver.switchTo().alert().accept();
     }
 
-    public void initContactModification(int index) {
-        driver.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    public void initContactModification(int id) {
+        driver.findElement(By.cssSelector("input[value='" + id + "']")).
+                findElement(By.xpath("../..//img[@alt='Edit']")).click();
     }
 
     public void submitContactModification() {
@@ -83,36 +85,31 @@ public class ContactHelper extends HelperBase {
         returnToContactPage();
     }
 
-    public boolean isThereAContact() {
-        return isElementPresent(By.xpath("//img[@alt='Edit']"));
-    }
-
-    public List<ContactData> list() {
-        ArrayList<ContactData> contacts = new ArrayList<>();
+       public Contacts all() {
+        Contacts contacts = new Contacts();
         List<WebElement> elements = driver.findElements(By.name("entry"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             List<WebElement> cells = element.findElements(By.tagName("td"));
             String firstname = cells.get(2).getText();
             String lastname = cells.get(1).getText();
-            ContactData contact = new ContactData(id, firstname, lastname, null, null, null);
-            contacts.add(contact);
+            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
         }
         return contacts;
     }
 
-    public void modify(ContactData contact, int index) {
-        selectContact(index);
-        initContactModification(index);
+    public void modify(ContactData contact) {
+        selectContact(contact.getId());
+        initContactModification(contact.getId());
         fillContactForm(contact, false);
         submitContactModification();
-        app.goTo().homePage();
+//        app.goTo().homePage();
     }
 
-    public void delete(int index) {
-        selectContact(index);
+    public void delete(ContactData contact) {
+        selectContact(contact.getId());
         deleteContact();
         closeAllert();
-        app.goTo().homePage();
+//        app.goTo().homePage();
     }
 }
