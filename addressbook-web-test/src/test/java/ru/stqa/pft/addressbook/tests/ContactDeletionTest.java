@@ -19,7 +19,8 @@ public class ContactDeletionTest extends TestBase {
             }
             app.goTo().homePage();
             app.contact().create(new ContactData().withFirstname("Slava").withLastname("Nazar")
-                    .withAddress("Sochi").withMobile("89152538869").withEmail("slava@yandex.ru"));
+                    .withAddress("Sochi").withMobile("89152538869").withEmail("slava@yandex.ru")
+                    .withWorkPhone("8 915 253 8869").withHomePhone("8-915-253-8869").withSecondEmail("slava@yandex.ru"));
         }
     }
 
