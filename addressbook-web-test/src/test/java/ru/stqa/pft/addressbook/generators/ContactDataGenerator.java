@@ -49,7 +49,7 @@ public class ContactDataGenerator {
         for (int i = 0; i < count; i++) {
             contacts.add(new ContactData().withFirstname(String.format("Firstname %s", i)).withLastname(String.format("Lastname %s", i))
                     .withAddress(String.format("Address %s", i)).withEmail(String.format("E-mail %s", i))
-                    .withHomePhone(String.format("Phone %s", i)));
+                    .withHomePhone(String.format("Phone %s", i)).withWorkPhone(String.format("Workphone %s", i)).withMobile((String.format("Mobilephone %s", i))));
         }
         return contacts;
     }

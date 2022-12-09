@@ -7,7 +7,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Browser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
@@ -22,6 +21,7 @@ public class AplicationManager {
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
     private Browser browser;
+    private DbHelper dbhelper;
 
     public AplicationManager(Browser browser) {
         this.browser = browser;
@@ -31,6 +31,7 @@ public class AplicationManager {
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/local.properties", target))));
+        dbhelper = new DbHelper();
         if (browser.equals(Browser.FIREFOX)) {
             driver = new FirefoxDriver();
         } else if (browser.equals(Browser.CHROME)) {
@@ -63,5 +64,9 @@ public class AplicationManager {
 
     public ContactHelper contact() {
         return contactHelper;
+    }
+
+    public DbHelper db() {
+        return dbhelper;
     }
 }

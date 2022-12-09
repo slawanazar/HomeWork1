@@ -1,4 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
+
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -44,21 +45,22 @@ public class ContactCreationTest extends TestBase {
             app.group().create(new GroupData().withName("test2").withHeader("test").withFooter("test"));
         }
     }
-    @Test (dataProvider = "validContactsFromXml")
+
+    @Test(dataProvider = "validContactsFromXml")
     public void testContactCreation(ContactData contact) throws Exception {
 //        app.goTo().groupPage();
 //        if (app.group().all().size() == 0){
 //            app.group().create(new GroupData().withName("test1"));
 //        }
         app.goTo().homePage();
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
 //        File photo = new File("src/test/resources/stru.png");
 //        ContactData contact = new ContactData().withFirstname("Slava").withLastname("Nazar")
 //                .withAddress("Sochi").withMobile("89152538869").withEmail("slava@yandex.ru").withWorkPhone("8 915 253 8869").withHomePhone("8-915-253-8869").withSecondEmail("slava@yandex.ru").withPhoto(photo);
 //                , true);
         app.contact().create(contact);
-        Contacts after = app.contact().all();
-        assertThat(after.size(), equalTo( before.size() + 1));
+        Contacts after = app.db().contacts();
+        assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 

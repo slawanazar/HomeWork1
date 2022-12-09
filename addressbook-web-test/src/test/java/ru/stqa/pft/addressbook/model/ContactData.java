@@ -2,33 +2,60 @@ package ru.stqa.pft.addressbook.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
+import java.util.Objects;
+
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 
 public class ContactData {
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id;
+    @Column(name = "firstname")
     private String firstName;
+    @Transient
     private String address;
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobile;
+    @Transient
     private String email;
+    @Transient
     private String group;
+    @Column(name = "lastname")
     private String lastName;
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
+    @Column(name = "work")
+    @Type(type = "text")
     private String workPhone;
+    @Transient
     private String allPhones;
+    @Transient
     private String allEmails;
+    @Transient
     private String secondEmail;
-    private String thirdEmail;
-    private File photo;
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
 
     public File getPhoto() {
-        return photo;
+        if (photo != null) {
+            return new File(photo);
+        } else {
+            return null;
+        }
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 
@@ -37,18 +64,9 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withThirdEmail(String thirdEmail) {
-        this.thirdEmail = thirdEmail;
-        return this;
-    }
-
     public ContactData withAllEmails(String allEmails) {
         this.allEmails = allEmails;
         return this;
-    }
-
-    public String getThirdEmail() {
-        return thirdEmail;
     }
 
     public String getSecondEmail() {
@@ -157,19 +175,14 @@ public class ContactData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ContactData that = (ContactData) o;
-
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
+        return id == that.id && Objects.equals(firstName, that.firstName) && Objects.equals(address, that.address) && Objects.equals(mobile, that.mobile)
+                && Objects.equals(email, that.email) && Objects.equals(group, that.group) && Objects.equals(lastName, that.lastName) && Objects.equals(homePhone, that.homePhone)
+                && Objects.equals(workPhone, that.workPhone) && Objects.equals(allPhones, that.allPhones) && Objects.equals(allEmails, that.allEmails) && Objects.equals(secondEmail, that.secondEmail);
     }
 
     @Override
     public int hashCode() {
-//        int result = firstName != null ? firstName.hashCode() : 0;
-        int result = id;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
+        return Objects.hash(id, firstName, address, mobile, email, group, lastName, homePhone, workPhone, allPhones, allEmails, secondEmail);
     }
 }
