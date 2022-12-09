@@ -7,8 +7,10 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Browser;
 
 import java.time.Duration;
+import java.util.Properties;
 
 public class AplicationManager {
+    private final Properties properties;
     WebDriver driver;
 
     private SessionHelper sessionHelper;
@@ -19,6 +21,7 @@ public class AplicationManager {
 
     public AplicationManager(Browser browser) {
         this.browser = browser;
+        properties = new Properties();
     }
 
     public void init() {
@@ -36,7 +39,8 @@ public class AplicationManager {
         navigationHelper = new NavigationHelper(driver);
         sessionHelper = new SessionHelper(driver);
         contactHelper = new ContactHelper(driver);
-        sessionHelper.login("admin", "secret");
+        sessionHelper.login(properties.getProperty("web.adminLogin"),
+                properties.getProperty("web.adminPassword"), properties.getProperty("web.baseUrl"));
     }
 
     public void stop() {

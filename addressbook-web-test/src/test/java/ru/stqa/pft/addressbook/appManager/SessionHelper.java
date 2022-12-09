@@ -8,7 +8,8 @@ public class SessionHelper extends HelperBase {
     public SessionHelper(WebDriver driver) {
         super(driver);
     }
-    public void login(String login, String password) {
+    public void login(String login, String password, String url) {
+        driver.get(url);
         type(By.name("user"), login);
         type(By.name("pass"), password);
         click(By.xpath("//input[@value='Login']"));
