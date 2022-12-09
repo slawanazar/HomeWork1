@@ -48,10 +48,10 @@ public class ContactCreationTest extends TestBase {
 
     @Test(dataProvider = "validContactsFromXml")
     public void testContactCreation(ContactData contact) throws Exception {
-//        app.goTo().groupPage();
-//        if (app.group().all().size() == 0){
-//            app.group().create(new GroupData().withName("test1"));
-//        }
+        app.goTo().groupPage();
+        if (app.db().groups().size() == 0){
+            app.group().create(new GroupData().withName("test1"));
+        }
         app.goTo().homePage();
         Contacts before = app.db().contacts();
 //        File photo = new File("src/test/resources/stru.png");

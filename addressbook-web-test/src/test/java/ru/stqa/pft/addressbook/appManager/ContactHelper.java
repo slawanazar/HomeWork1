@@ -8,8 +8,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
     protected final AplicationManager app = new AplicationManager(Browser.CHROME);
@@ -48,7 +50,11 @@ public class ContactHelper extends HelperBase {
 //        driver.findElement(By.name("email3")).sendKeys(contactData.getThirdEmail());
 
         if (creation) {
-            new Select(driver.findElement(By.name("new_group"))).selectByIndex(1);
+            if (contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(driver.findElement(By.name("new_group")))
+                        .selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -91,11 +97,16 @@ public class ContactHelper extends HelperBase {
         contactPage();
         fillContactForm(contact, true);
         submitContactCreation();
+        contactCash = null;
         returnToContactPage();
     }
 
+    private Contacts contactCash = null;
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if (contactCash != null) {
+            return new Contacts(contactCash);
+        }
+        contactCash = new Contacts();
         List<WebElement> elements = driver.findElements(By.name("entry"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
@@ -105,10 +116,10 @@ public class ContactHelper extends HelperBase {
             String address = cells.get(3).getText();
             String allEmails = cells.get(4).getText();
             String allPhones = cells.get(5).getText();
-            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddress(address).withAllEmails(allEmails)
+            contactCash.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddress(address).withAllEmails(allEmails)
                     .withAllPhones(allPhones));
         }
-        return contacts;
+        return contactCash;
     }
 
     public void modify(ContactData contact) {
@@ -147,5 +158,31 @@ public class ContactHelper extends HelperBase {
         WebElement row = checkbox.findElement(By.xpath("./../.."));
         List<WebElement> cells = row.findElements(By.tagName("td"));
         cells.get(7).findElement(By.tagName("a")).click();
+    }
+
+    public ContactData findContactWithoutGroup(Contacts contacts) {
+        for (ContactData contact : contacts) {
+            Set<GroupData> contactInGroup = contact.getGroups();
+            if (contactInGroup.size() == 0) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+    public void addContactToGroup(int contactId, int groupId) {
+        app.goTo().homePage();
+        selectContact(contactId);
+        selectGroup(groupId);
+        clickAdd();
+
+    }
+
+    private void clickAdd() {
+        click(By.xpath("(//input[@name='add'])"));
+    }
+
+    private void selectGroup(int Id) {
+        click(By.xpath("(//select[@name='to_group']/option[@value='" + Id + "'])"));
     }
 }
