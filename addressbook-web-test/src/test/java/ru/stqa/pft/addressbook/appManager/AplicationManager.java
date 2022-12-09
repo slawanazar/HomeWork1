@@ -6,6 +6,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Browser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -24,7 +28,9 @@ public class AplicationManager {
         properties = new Properties();
     }
 
-    public void init() {
+    public void init() throws IOException {
+        String target = System.getProperty("target", "local");
+        properties.load(new FileReader(new File(String.format("src/test/resources/local.properties", target))));
         if (browser.equals(Browser.FIREFOX)) {
             driver = new FirefoxDriver();
         } else if (browser.equals(Browser.CHROME)) {
@@ -34,7 +40,7 @@ public class AplicationManager {
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        driver.get("http://localhost/addressbook");
+        driver.get(properties.getProperty("web.baseUrl"));
         groupHelper = new GroupHelper(driver);
         navigationHelper = new NavigationHelper(driver);
         sessionHelper = new SessionHelper(driver);
