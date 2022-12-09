@@ -1,6 +1,13 @@
 package ru.stqa.pft.addressbook.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.File;
+@XStreamAlias("contact")
+
 public class ContactData {
+    @XStreamOmitField
     private int id;
     private String firstName;
     private String address;
@@ -14,7 +21,16 @@ public class ContactData {
     private String allEmails;
     private String secondEmail;
     private String thirdEmail;
+    private File photo;
 
+    public File getPhoto() {
+        return photo;
+    }
+
+    public ContactData withPhoto(File photo) {
+        this.photo = photo;
+        return this;
+    }
 
     public ContactData withSecondEmail(String secondEmail) {
         this.secondEmail = secondEmail;

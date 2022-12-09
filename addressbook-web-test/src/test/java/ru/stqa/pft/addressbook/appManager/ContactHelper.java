@@ -31,9 +31,9 @@ public class ContactHelper extends HelperBase {
         driver.findElement(By.name("firstname")).sendKeys(contactData.getFirstName());
         driver.findElement(By.name("lastname")).clear();
         driver.findElement(By.name("lastname")).sendKeys(contactData.getLastName());
+        attach(By.name("photo"), contactData.getPhoto());
         driver.findElement(By.name("address")).clear();
         driver.findElement(By.name("address")).sendKeys(contactData.getAddress());
-
         driver.findElement(By.name("home")).clear();
         driver.findElement(By.name("home")).sendKeys(contactData.getHomePhone());
         driver.findElement(By.name("mobile")).clear();
