@@ -19,7 +19,7 @@ public class ContactData {
     @Id
     @Column(name = "id")
     private int id;
-    @Column(name = "firstname")
+    @Column(name = "firstName")
     private String firstName;
     @Column(name = "address")
     @Type(type = "text")
@@ -31,7 +31,7 @@ public class ContactData {
     private String email;
     @Transient
     private String group;
-    @Column(name = "lastname")
+    @Column(name = "lastName")
     private String lastName;
     @Column(name = "home")
     @Type(type = "text")

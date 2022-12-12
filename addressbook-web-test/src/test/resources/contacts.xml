@@ -1,11 +1,11 @@
 <list>
     <contact>
-        <firstname>Firstname 0</firstname>
-        <lastname>Lastname 0</lastname>
+        <firstName>Firstname 0</firstName>
+        <lastName>Lastname 0</lastName>
         <address>Address 0</address>
         <allPhones>Phone 0</allPhones>
         <allEmails>E-mail 0</allEmails>
-        <mobilePhone>Mobilephone 0</mobilePhone>
+        <mobile>Mobilephone 0</mobile>
         <workPhone>Workphone 0</workPhone>
     </contact>
 </list>
