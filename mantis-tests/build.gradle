@@ -6,11 +6,7 @@ dependencies{
     implementation("org.testng:testng:7.6.0")
     implementation 'org.seleniumhq.selenium:selenium-java:4.5.3'
     implementation("org.hamcrest:java-hamcrest:2.0.0.0")
-    implementation 'com.beust:jcommander:1.82'
-    implementation 'com.thoughtworks.xstream:xstream:1.4.19'
-    implementation 'com.google.code.gson:gson:2.10'
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.38'
-    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.14.Final'
+
 }
 test {
     useTestNG()
@@ -22,25 +18,9 @@ tasks.withType(Test) {
     systemProperty "file.encoding", "UTF-8"
 }
 
-task testGroups(type: Test) {
+test{
     useTestNG {
-        suites 'src/test/resources/testng-groups.xml'
-    }
-
-    if (project.hasProperty("browser")) {
-        systemProperty('browser', "${browser}")
-    }
-    if (project.hasProperty("target")) {
-        systemProperty('target', "${target}")
-    }
-    if (project.hasProperty("verifyUI")) {
-        systemProperty('verifyUI', "${verifyUI}")
-    }
-
-}
-task testContacts(type: Test) {
-    useTestNG {
-        suites 'src/test/resources/testng-contacts.xml'
+        suites 'src/test/resources/testng.xml'
     }
 
     if (project.hasProperty("browser")) {
