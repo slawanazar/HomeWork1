@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.equalTo;
 public class ContactCreationTest extends TestBase {
     @DataProvider
     public Iterator<Object[]> validContactsFromXml() throws IOException {
-
         try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
             String xml = "";
             String line = reader.readLine();
@@ -49,7 +48,7 @@ public class ContactCreationTest extends TestBase {
     @Test(dataProvider = "validContactsFromXml")
     public void testContactCreation(ContactData contact) throws Exception {
         app.goTo().groupPage();
-        if (app.db().groups().size() == 0){
+        if (app.db().groups().size() == 0) {
             app.group().create(new GroupData().withName("test1"));
         }
         app.goTo().homePage();

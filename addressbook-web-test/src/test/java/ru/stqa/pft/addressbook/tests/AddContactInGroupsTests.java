@@ -14,10 +14,8 @@ public class AddContactInGroupsTests extends TestBase {
 
     @BeforeMethod
     public void preconditions() {
-
         Groups groups = app.db().groups();
         Contacts contacts = app.db().contacts();
-
         if (groups.size() == 0) {
             app.goTo().groupPage();
             app.group().create(new GroupData().withName("test16"));
@@ -40,7 +38,6 @@ public class AddContactInGroupsTests extends TestBase {
         Integer contactId = contactWithoutGroup.getId();
         GroupData selectedGroup = groups.iterator().next();
         app.contact().addContactToGroup(contactWithoutGroup.getId(), selectedGroup.getID());
-
         Contacts contactAfter = app.db().getContactById(contactId);
         ContactData contactWithGroup = contactAfter.iterator().next();
         assertThat(contactWithGroup, equalTo(contactWithoutGroup.inGroup(selectedGroup)));

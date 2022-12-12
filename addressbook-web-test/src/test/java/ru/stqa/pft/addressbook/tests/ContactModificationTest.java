@@ -32,7 +32,6 @@ public class ContactModificationTest extends TestBase {
         ContactData contact = new ContactData().withId(mofifiedContact.getId()).withFirstname("Dima").withLastname("Ivanov")
                 .withAddress("Moskow").withMobile("+79161221397").withEmail("test@yandex.ru")
                 .withWorkPhone("8 915 253 8869").withHomePhone("8-915-253-8869").withSecondEmail("slava@yandex.ru");
-
         app.contact().modify(contact);
         app.goTo().homePage();
         Contacts after = app.db().contacts();

@@ -89,9 +89,11 @@ public class ContactHelper extends HelperBase {
         driver.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
     }
 
+
     public void contactPage() {
         driver.findElement(By.linkText("add new")).click();
     }
+
 
     public void create(ContactData contact) {
         contactPage();
@@ -100,6 +102,7 @@ public class ContactHelper extends HelperBase {
         contactCash = null;
         returnToContactPage();
     }
+
 
     private Contacts contactCash = null;
     public Contacts all() {
@@ -121,6 +124,34 @@ public class ContactHelper extends HelperBase {
         }
         return contactCash;
     }
+
+
+    public ContactData findContactWithGroup(Contacts contacts) {
+        for (ContactData contact : contacts) {
+            Set<GroupData> contactInGroup = contact.getGroups();
+            if (contactInGroup.size() > 0) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+
+    public void selectAllGroup() {
+        click(By.xpath("(//select[@name='group']/option[text()='[all]'])"));
+    }
+    public void filterByGroup(int groupId) {
+        click(By.xpath("(//select[@name='group']/option[@value='" + groupId + "'])"));
+    }
+    public void removeContactFromGroup(int contactId, int groupId) {
+        filterByGroup(groupId);
+        selectContact(contactId);
+        removeFromGroup();
+    }
+    public void removeFromGroup() {
+        click(By.xpath("(//input[@name='remove'])"));
+    }
+
 
     public void modify(ContactData contact) {
         selectContact(contact.getId());
@@ -175,7 +206,6 @@ public class ContactHelper extends HelperBase {
         selectContact(contactId);
         selectGroup(groupId);
         clickAdd();
-
     }
 
     private void clickAdd() {
