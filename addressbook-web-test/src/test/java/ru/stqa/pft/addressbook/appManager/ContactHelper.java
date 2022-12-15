@@ -61,7 +61,8 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectContact(int id) {
-        driver.findElement(By.cssSelector("input[value='" + id + "']")).click();
+//        driver.findElement(By.cssSelector("//input[value='" + id + "']")).click();
+        click(By.cssSelector("input[value='" + id + "']"));
     }
 
     public void deleteContact() {
@@ -103,6 +104,9 @@ public class ContactHelper extends HelperBase {
         returnToContactPage();
     }
 
+    public int Count() {
+        return driver.findElements(By.name("selected[]")).size();
+    }
 
     private Contacts contactCash = null;
     public Contacts all() {
@@ -202,7 +206,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addContactToGroup(int contactId, int groupId) {
-        app.goTo().homePage();
         selectContact(contactId);
         selectGroup(groupId);
         clickAdd();

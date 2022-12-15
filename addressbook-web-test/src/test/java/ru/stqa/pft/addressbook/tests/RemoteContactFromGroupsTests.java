@@ -27,6 +27,7 @@ public class RemoteContactFromGroupsTests extends TestBase {
             Contacts contactsUI = app.contact().all();
             ContactData selectedContactUI = contactsUI.iterator().next();
             GroupData selectedGroup = groups.iterator().next();
+            app.goTo().homePage();
             app.contact().addContactToGroup(selectedContactUI.getId(), selectedGroup.getID());
             app.goTo().homePage();
         }

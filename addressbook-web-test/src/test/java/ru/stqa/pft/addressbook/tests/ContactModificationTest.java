@@ -28,14 +28,14 @@ public class ContactModificationTest extends TestBase {
     @Test
     public void testContactModification() {
         Contacts before = app.db().contacts();
-        ContactData mofifiedContact = before.iterator().next();
-        ContactData contact = new ContactData().withId(mofifiedContact.getId()).withFirstname("Dima").withLastname("Ivanov")
+        ContactData modifiedContact = before.iterator().next();
+        ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("Dima").withLastname("Ivanov")
                 .withAddress("Moskow").withMobile("+79161221397").withEmail("test@yandex.ru")
                 .withWorkPhone("8 915 253 8869").withHomePhone("8-915-253-8869").withSecondEmail("slava@yandex.ru");
         app.contact().modify(contact);
         app.goTo().homePage();
+        assertThat(app.contact().Count(), equalTo(before.size()));
         Contacts after = app.db().contacts();
-        Assert.assertEquals(before.size(), after.size());
-        assertThat(after, equalTo(before.without(mofifiedContact).withAdded(contact)));
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 }

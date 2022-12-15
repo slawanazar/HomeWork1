@@ -21,10 +21,12 @@ public class AddContactInGroupsTests extends TestBase {
             app.group().create(new GroupData().withName("test16"));
         }
         if (contacts.size() == 0) {
-            app.contact().create(new ContactData().withFirstname("Dima"));
+            app.contact().create(new ContactData().withFirstname("Dima").withLastname("Nazar").withAddress("Minsk").withHomePhone("111")
+                    .withMobile("222").withWorkPhone("333").withEmail("yandex").withSecondEmail("secondEmail"));
         }
         if (app.contact().findContactWithoutGroup(contacts) == null) {
-            ContactData contact = new ContactData().withFirstname("Semen").withLastname("Nazarov");
+            ContactData contact = new ContactData().withFirstname("Semen").withLastname("Nazarov").withAddress("Piter").withHomePhone("444")
+                    .withMobile("555").withWorkPhone("666").withEmail("gmail").withSecondEmail("secondemailgmail");
             app.contact().create(contact);
             app.goTo().homePage();
         }
