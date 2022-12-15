@@ -1,4 +1,4 @@
-package ru.stqa.pft.sandbox;
+package ru.stqa.pft.addressbook.sandbox;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 public class PointTests {
