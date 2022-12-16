@@ -3,16 +3,17 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    testImplementation group: 'org.testng', name: 'testng', version: '7.1.0'
-    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.6.0'
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    implementation group: 'commons-net', name: 'commons-net', version: '3.8.0'
-    testImplementation group: 'org.subethamail', name: 'subethasmtp', version: '3.1.7'
-    implementation group: 'ru.lanwen.verbalregex', name: 'java-verbal-expressions', version: '1.4'
-    testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+    implementation 'org.testng:testng:7.5'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.5.2'
+    implementation 'org.hamcrest:hamcrest:2.1'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'commons-net:commons-net:3.4'
+    implementation 'org.subethamail:subethasmtp:3.1.7'
+    implementation 'ru.lanwen.verbalregex:java-verbal-expressions:1.4'
+    implementation 'ch.qos.logback:logback-classic:1.1.5'
+    implementation 'mysql:mysql-connector-java:8.0.30'
+    implementation 'org.hibernate:hibernate-core:5.6.12.Final'
     implementation 'biz.futureware.mantis:mantis-axis-soap-client:1.2.19'
-    implementation 'org.eu.vooo:commons-net:1.0.8'
 }
 test {
     useTestNG {

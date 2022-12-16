@@ -65,6 +65,14 @@ public class SoapHelper {
         MantisConnectLocator locator = new MantisConnectLocator();
         locator.setEngineConfiguration(clientConfig);
         locator.setEngine(new AxisClient(clientConfig));
-        return locator.getMantisConnectPort(new URL("http://localhost/mantisbt-2.25.4/api/soap/mantisconnect.php"));
+        return locator.getMantisConnectPort(new URL(app.getProperty("mantisSoap.url")));
+    }
+
+    public String getIssueStatus (int id) throws MalformedURLException, ServiceException, RemoteException {
+        MantisConnectPortType mc = getMantisConnect();
+        IssueData issue = mc.mc_issue_get(app.getProperty("web.adminLogin")
+                , app.getProperty("web.adminPassword"), BigInteger.valueOf(id));
+        String statusName = issue.getStatus().getName();
+        return statusName;
     }
 }
