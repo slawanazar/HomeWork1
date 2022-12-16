@@ -28,4 +28,8 @@ public class NavigationHelper extends HelperBase {
     private void selectUser(int id) {
         click(By.cssSelector(String.format("a[href='manage_user_edit_page.php?user_id=%s']", id)));
     }
+
+    public void settingUserPage() {
+        click(By.xpath("//a[contains(@href, '/manage_user_page.php')]"));
+    }
 }

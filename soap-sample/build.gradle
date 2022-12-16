@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-   compile 'org.testng:testing:6.9.10'
+   compile 'org.testng:testing:7.4.0'
 }
 
 buildscript{

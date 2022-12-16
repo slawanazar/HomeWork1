@@ -25,6 +25,8 @@ public class ApplicationManager {
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
     private SoapHelper soapHelper;
+    private DbHelper dbHelper;
+    private UserHelper userHelper;
 
     public ApplicationManager(Browser browser) {
         this.browser = browser;
@@ -34,6 +36,7 @@ public class ApplicationManager {
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/local.properties", target))));
+        dbHelper = new DbHelper();
         if (browser.equals(Browser.FIREFOX)) {
             driver = new FirefoxDriver();
         } else if (browser.equals(Browser.CHROME)) {
@@ -43,6 +46,17 @@ public class ApplicationManager {
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         driver.get(properties.getProperty("web.baseUrl"));
+    }
+
+    public UserHelper user() {
+        if (userHelper == null) {
+            userHelper = new UserHelper(this);
+        }
+        return userHelper;
+    }
+
+    public DbHelper db() {
+        return dbHelper;
     }
 
     public void stop() {
@@ -120,5 +134,12 @@ public class ApplicationManager {
             soapHelper = new SoapHelper(this);
         }
         return soapHelper;
+    }
+
+    public NavigationHelper goTo() {
+        if (navigationHelper == null) {
+            navigationHelper = new NavigationHelper(this);
+        }
+        return navigationHelper;
     }
 }

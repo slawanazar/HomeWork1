@@ -1,49 +1,49 @@
 package ru.stqa.pft.mantis.tests;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
+import ru.stqa.pft.mantis.model.UserData;
+import ru.stqa.pft.mantis.model.Users;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.Assert.assertTrue;
 
 public class ChangePasswordTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePrecondition() throws IOException {
+        app.mail().start();
+        if (app.db().users().size() == 0) {
+            long now = System.currentTimeMillis();
+            String mail = String.format("user%s@localhost.localadmin", now);
+            String userName = String.format("user%s", now);
+            String password = "password";
+            app.registration().start(userName, mail);
+            List<MailMessage> mailMessageList = app.mail().waitForMail(2, 10000);
+            String confirmationLink = app.user().findConfirmationLink(mailMessageList, mail);
+            app.registration().finish(confirmationLink, password);
+        }
+    }
+
     @Test
-    public void testChangeUserPassword() throws IOException, MessagingException {
-        long now = System.currentTimeMillis();
-        String user = String.format("user%s", now);
-        String password = "password";
-        String email = String.format("user%s@localhost", now);
-        app.james().createUser(user, password);
-        app.registration().start(user, email);
-        List<MailMessage> mailMessages = app.james().waitForMail(user, password, 10000);
-        String confirmationLink = findConfirmationLinkCreateUser(mailMessages, email);
-        app.registration().finish(confirmationLink, password);
-        app.session().login("administrator", "root");
-        app.navigationHelper().goToManageUsersPage();
-        app.navigationHelper().selectUser(user);
-        app.navigationHelper().resetPassword();
-        List<MailMessage> mailMessagesResetPassword = app.james().waitForMailMoreOne(user, password, 120000);
-        String confirmationLinkResetPassword = findConfirmationLink(mailMessagesResetPassword, email);
-        String newPassword = "pas14";
-        app.registration().finish(confirmationLinkResetPassword, newPassword);
-        app.session().login(user, newPassword);
-        assertTrue(app.newSession().login(user, newPassword));
+    public void changePasswordTest() throws IOException {
+        String password = "qwerty";
+        Users allUser = app.db().users();
+        UserData user = allUser.iterator().next();
+        app.user().adminLogIn();
+        app.user().initPasswordUpdate(user);
+        List<MailMessage> mailMessageList = app.mail().waitForMail(1, 10000);
+        String confirmationLink = app.user().findConfirmationLink(mailMessageList, user.getEmail());
+        app.user().confirmPasswordUpdateFromEmailLink(user.getUserName(), confirmationLink, password);
+        assertTrue(app.newSession().login(user.getUserName(), password));
     }
 
-    private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
-        MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email) && m.text.contains("Someone (presumably you) requested a password change through e-mail")).iterator().next();
-        VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
-        return regex.getText(mailMessage.text);
-    }
-
-    private String findConfirmationLinkCreateUser(List<MailMessage> mailMessages, String email) {
-        MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findFirst().get();
-        VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
-        return regex.getText(mailMessage.text);
+    @AfterMethod(alwaysRun = true)
+    public void stopMailServer() {
+        app.mail().stop();
     }
 }

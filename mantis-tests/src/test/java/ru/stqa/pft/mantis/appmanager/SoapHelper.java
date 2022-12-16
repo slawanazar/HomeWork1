@@ -1,6 +1,13 @@
 package ru.stqa.pft.mantis.appmanager;
 
 import biz.futureware.mantis.rpc.soap.client.*;
+import org.apache.axis.Handler;
+import org.apache.axis.SimpleChain;
+import org.apache.axis.SimpleTargetedChain;
+import org.apache.axis.client.AxisClient;
+import org.apache.axis.configuration.SimpleProvider;
+import org.apache.axis.transport.http.HTTPSender;
+import org.apache.axis.transport.http.HTTPTransport;
 import ru.stqa.pft.mantis.model.Issue;
 import ru.stqa.pft.mantis.model.Project;
 
@@ -23,16 +30,10 @@ public class SoapHelper {
 
     public Set<Project> getProjects() throws MalformedURLException, RemoteException, ServiceException {
         MantisConnectPortType mc = getMantisConnect();
-        ProjectData[] projects = mc.mc_projects_get_user_accessible("administrator", "root");
+        ProjectData[] projects = mc.mc_projects_get_user_accessible(app.getProperty("soap.administratorLogin"), app.getProperty("soap.administratorPassword"));
         return Arrays.asList(projects).stream()
                 .map((p) -> new Project().withId(p.getId().intValue()).withName(p.getName()))
                 .collect(Collectors.toSet());
-    }
-
-    private static MantisConnectPortType getMantisConnect() throws ServiceException, MalformedURLException {
-        MantisConnectPortType mc = new MantisConnectLocator()
-                .getMantisConnectPort(new URL("http://localhost/mantisbt-2.25.4/api/soap/mantisconnect.wsdl"));
-        return mc;
     }
 
     public Issue addIssue(Issue issue) throws MalformedURLException, ServiceException, RemoteException {
@@ -49,5 +50,21 @@ public class SoapHelper {
                 .withSummary(createdIssueData.getSummary()).withDescription(createdIssueData.getDescription())
                 .withProject(new Project().withId(createdIssueData.getProject().getId().intValue())
                         .withName(createdIssueData.getProject().getName()));
+    }
+
+    private MantisConnectPortType getMantisConnect() throws ServiceException, MalformedURLException {
+        SimpleProvider clientConfig = new SimpleProvider();
+        AxisLogHandler logHandler = new AxisLogHandler();
+        SimpleChain reqHandler = new SimpleChain();
+        SimpleChain respHandler = new SimpleChain();
+        reqHandler.addHandler(logHandler);
+        respHandler.addHandler(logHandler);
+        Handler pivot = new HTTPSender();
+        Handler transport = new SimpleTargetedChain(reqHandler, pivot, respHandler);
+        clientConfig.deployTransport(HTTPTransport.DEFAULT_TRANSPORT_NAME, transport);
+        MantisConnectLocator locator = new MantisConnectLocator();
+        locator.setEngineConfiguration(clientConfig);
+        locator.setEngine(new AxisClient(clientConfig));
+        return locator.getMantisConnectPort(new URL("http://localhost/mantisbt-2.25.4/api/soap/mantisconnect.php"));
     }
 }
