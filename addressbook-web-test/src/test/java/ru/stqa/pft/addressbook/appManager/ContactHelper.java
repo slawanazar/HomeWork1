@@ -90,11 +90,9 @@ public class ContactHelper extends HelperBase {
         driver.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
     }
 
-
     public void contactPage() {
         driver.findElement(By.linkText("add new")).click();
     }
-
 
     public void create(ContactData contact) {
         contactPage();
@@ -205,9 +203,9 @@ public class ContactHelper extends HelperBase {
         return null;
     }
 
-    public void addContactToGroup(int contactId, int groupId) {
-        selectContact(contactId);
-        selectGroup(groupId);
+    public void addContactToGroup(ContactData contact, GroupData group) {
+        selectContact(contact.getId());
+        selectGroup(group.getID());
         clickAdd();
     }
 
