@@ -1,0 +1,16 @@
+ru/stqa/pft/rest/model/Issue.java
+ ru.stqa.pft.rest.model.Issue
+ru/stqa/pft/rest/tests/RestTests.java
+ ru.stqa.pft.rest.tests.RestTests
+ ru.stqa.pft.rest.tests.RestTests$1
+ru/stqa/pft/rest/tests/RestAssuredTests.java
+ ru.stqa.pft.rest.tests.RestAssuredTests
+ ru.stqa.pft.rest.tests.RestAssuredTests$1
+ru/stqa/pft/rest/appmanager/JsonHelper.java
+ ru.stqa.pft.rest.appmanager.JsonHelper
+ ru.stqa.pft.rest.appmanager.JsonHelper$1
+ru/stqa/pft/rest/appmanager/ApplicationManager.java
+ ru.stqa.pft.rest.appmanager.ApplicationManager
+ru/stqa/pft/rest/tests/TestBase.java
+ ru.stqa.pft.rest.tests.TestBase
+ ru.stqa.pft.rest.tests.TestBase$1
