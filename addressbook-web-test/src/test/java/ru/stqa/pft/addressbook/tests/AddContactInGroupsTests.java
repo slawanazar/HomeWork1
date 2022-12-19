@@ -32,31 +32,6 @@ public class AddContactInGroupsTests extends TestBase {
         }
     }
 
-//    @Test
-//    public void testAddContactInGroups() {
-//        Groups groups = app.db().groups();
-//        Contacts contacts = app.db().contacts();
-//        ContactData selectContact = getSelectContact(contacts, groups.size());
-//        GroupData selectGroup = getSelectGroup(groups,selectContact);
-//        int beforeAddingGroup = selectContact.getGroups().size();
-//        app.contact().addContactToGroup(selectContact, selectGroup);
-//        contacts = app.db().contacts();
-//        ContactData findContact = getFindContact(contacts, selectContact.getId());
-//        int afterAddingGroup = findContact.getGroups().size();
-//        assertThat(afterAddingGroup, equalTo(beforeAddingGroup + 1));
-//    }
-//
-//    public ContactData getSelectContact (Contacts contact, int groupsSize){
-//        return contact.stream().filter((c) -> c.getGroups().size() != groupsSize).findFirst().get();
-//    }
-//    public  GroupData getSelectGroup (Groups groupsAll,ContactData contact){
-//        groupsAll.removeAll(contact.getGroups());
-//        return groupsAll.iterator().next();
-//    }
-//    private ContactData getFindContact(Contacts contact, int contactId) {
-//        return contact.stream().filter((c) -> c.getId() == contactId).findFirst().get();
-//    }
-
     @Test
     public void testAddContactInGroups() {
         Groups groups = app.db().groups();
