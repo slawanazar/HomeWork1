@@ -127,7 +127,6 @@ public class ContactHelper extends HelperBase {
         return contactCash;
     }
 
-
     public ContactData findContactWithGroup(Contacts contacts) {
         for (ContactData contact : contacts) {
             Set<GroupData> contactInGroup = contact.getGroups();
@@ -138,22 +137,23 @@ public class ContactHelper extends HelperBase {
         return null;
     }
 
-
     public void selectAllGroup() {
         click(By.xpath("(//select[@name='group']/option[text()='[all]'])"));
     }
+
     public void filterByGroup(int groupId) {
         click(By.xpath("(//select[@name='group']/option[@value='" + groupId + "'])"));
     }
+
     public void removeContactFromGroup(int contactId, int groupId) {
         filterByGroup(groupId);
         selectContact(contactId);
         removeFromGroup();
     }
+
     public void removeFromGroup() {
         click(By.xpath("(//input[@name='remove'])"));
     }
-
 
     public void modify(ContactData contact) {
         selectContact(contact.getId());
@@ -168,7 +168,6 @@ public class ContactHelper extends HelperBase {
         closeAllert();
 //        app.goTo().homePage();
     }
-
 
     public ContactData infoFromEditForm(ContactData contact) {
         initContactModificationById(contact.getId());
@@ -203,9 +202,9 @@ public class ContactHelper extends HelperBase {
         return null;
     }
 
-    public void addContactToGroup(ContactData contact, GroupData group) {
-        selectContact(contact.getId());
-        selectGroup(group.getID());
+    public void addContactToGroup(int contactID, int groupID) {
+        selectContact(contactID);
+        selectGroup(groupID);
         clickAdd();
     }
 
