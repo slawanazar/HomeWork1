@@ -4,7 +4,7 @@
 
     <test name="Contacts">
         <classes>
-            <class name="ru.stqa.pft.addressbook.tests.RemoteContactFromGroupsTests"/>
+<!--            <class name="ru.stqa.pft.addressbook.tests.RemoteContactFromGroupsTests"/>-->
         </classes>
     </test>
 </suite>
