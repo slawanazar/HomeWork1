@@ -5,7 +5,8 @@
         <classes>
 <!--            <class name="ru.stqa.pft.addressbook.tests.GroupCreationTest"/>-->
             <class name="ru.stqa.pft.addressbook.tests.GroupModificationTest"/>
-<!--            <class name="ru.stqa.pft.addressbook.tests.GroupDeletionTest"/>-->
+            <class name="ru.stqa.pft.addressbook.tests.GroupDeletionTest"/>
+            <class name="ru.stqa.pft.addressbook.tests.RemoteContactFromGroupsTests"/>
         </classes>
     </test>
 </suite>
