@@ -61,7 +61,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectContact(int id) {
-//        driver.findElement(By.cssSelector("//input[value='" + id + "']")).click();
         click(By.cssSelector("input[value='" + id + "']"));
     }
 
@@ -107,6 +106,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private Contacts contactCash = null;
+
     public Contacts all() {
         if (contactCash != null) {
             return new Contacts(contactCash);
@@ -137,10 +137,6 @@ public class ContactHelper extends HelperBase {
         return null;
     }
 
-    public void selectAllGroup() {
-        click(By.xpath("(//select[@name='group']/option[text()='[all]'])"));
-    }
-
     public void filterByGroup(int groupId) {
         click(By.xpath("(//select[@name='group']/option[@value='" + groupId + "'])"));
     }
@@ -166,7 +162,6 @@ public class ContactHelper extends HelperBase {
         selectContact(contact.getId());
         deleteContact();
         closeAllert();
-//        app.goTo().homePage();
     }
 
     public ContactData infoFromEditForm(ContactData contact) {
@@ -179,7 +174,6 @@ public class ContactHelper extends HelperBase {
         String work = driver.findElement(By.name("work")).getAttribute("value");
         String email = driver.findElement(By.name("email")).getAttribute("value");
         String email2 = driver.findElement(By.name("email2")).getAttribute("value");
-
         driver.navigate().back();
         return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withAddress(address)
                 .withHomePhone(home).withMobile(mobile).withWorkPhone(work).withEmail(email).withSecondEmail(email2);
@@ -192,14 +186,19 @@ public class ContactHelper extends HelperBase {
         cells.get(7).findElement(By.tagName("a")).click();
     }
 
-    public ContactData findContactWithoutGroup(Contacts contacts) {
-        for (ContactData contact : contacts) {
-            Set<GroupData> contactInGroup = contact.getGroups();
-            if (contactInGroup.size() == 0) {
-                return contact;
-            }
-        }
-        return null;
+    public void addToGroup(ContactData contact, GroupData group) {
+        selectContact(contact.getId());
+        selectGroupToContact(group.getID());
+        clickAdd();
+        contactCache = null;
+    }
+
+    private Contacts contactCache = null;
+
+
+    private void selectGroupToContact(int id) {
+        click(By.name("to_group"));
+        driver.findElement(By.name("to_group")).findElement(By.cssSelector(String.format("option[value='%s']", id))).click();
     }
 
     public void addContactToGroup(int contactID, int groupID) {

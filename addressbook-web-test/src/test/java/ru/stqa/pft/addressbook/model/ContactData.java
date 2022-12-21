@@ -82,7 +82,7 @@ public class ContactData {
     }
 
     public Object readResolve() {
-        if(groups == null){
+        if (groups == null) {
             groups = new HashSet<GroupData>();
         }
         return this;
