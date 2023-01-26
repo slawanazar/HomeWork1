@@ -32,6 +32,7 @@ public class TestBase {
     public void tearDown() {
         app.stop();
     }
+
     @BeforeMethod
     public void logTestStart(Method m, Object[] p) {
         logger.info("Start test " +m.getName() + "with parametrs" + Arrays.asList(p));

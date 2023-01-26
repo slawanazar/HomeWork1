@@ -1,4 +1,5 @@
 package ru.stqa.pft.addressbook.appManager;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,7 +49,7 @@ public class GroupHelper extends HelperBase {
         click(By.name("update"));
     }
 
-    public void create(GroupData group) {
+    public void create(GroupData group)    {   //metod sozdaniz gruppy
         initGroupCreation();
         fillGroupForm(group);
         submitGroupCreation();
@@ -56,17 +57,13 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();
     }
 
-    public void modify(GroupData group) {
+    public void modify(GroupData group) {  //metod modifikacii suschestvuyushey gruppy
         selectGroupById(group.getID());
         initGroupModification();
         fillGroupForm(group);
         submitGroupModification();
         groupCache = null;
         returnToGroupPage();
-    }
-
-    public boolean isThereAGroup() {
-        return isElementPresent(By.name("selected[]"));
     }
 
     public List<GroupData> list() {
@@ -83,7 +80,7 @@ public class GroupHelper extends HelperBase {
     private Groups groupCache = null;
 
     public Groups all() {
-        if(groupCache != null) {
+        if (groupCache != null) {
             return new Groups(groupCache);
         }
 
